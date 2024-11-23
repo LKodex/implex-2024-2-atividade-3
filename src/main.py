@@ -48,12 +48,20 @@ def calculateDiameter(graph: dict) -> int:
     minimumDegree = calculateMinimumDegree(graph)
     if minimumDegree <= 0:
         return 0
-    return 0
+    verticesCount = calculateVertices(graph)
+    maximumDistance = 0
+    for v in range(verticesCount):
+        bfsTreePath = generateTreePath(graph, v)
+        vertice = bfsTreePath[v]
+        verticeDistance = vertice["distance"]
+        maximumDistance = max(verticeDistance, maximumDistance)
+    return maximumDistance
 
 def generateTreePath(graph: dict, origin: int):
     WHITE = "WHITE"
     GRAY = "GRAY"
     BLACK = "BLACK"
+
     bfsTreeGraph = {}
     for v, neighbors in graph.items():
         bfsTreeGraph[v] = {
