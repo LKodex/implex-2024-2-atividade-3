@@ -33,6 +33,10 @@ def calculateMinimumDegree(graph: dict) -> int:
     """Calcula o grau mínimo do grafo G."""
     return min(len(neighbors) for neighbors in graph.values())
 
+def calculateMaximumDegree(graph: dict) -> int:
+    """Calcula o grau mínimo do grafo G."""
+    return max(len(neighbors) for neighbors in graph.values())
+
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
     random.seed(seed)
     dataSet = {}
@@ -51,6 +55,9 @@ def main(ini: int, fim: int, stp: int, p: float, seed, *args):
 
         minimumDegree = calculateMinimumDegree(graph)
         data |= { "minimumDegree": minimumDegree }
+
+        maximumDegree = calculateMaximumDegree(graph)
+        data |= { "maximumDegree": maximumDegree }
 
 def generateRandomSeed() -> str:
     """Gera um hash SHA3 de 512 caracteres como seed."""
