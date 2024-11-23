@@ -25,23 +25,32 @@ def calculateVertices(graph: dict) -> int:
     """Calcula o número de vértices V do grafo G."""
     return len(graph)
 
+def calculateEdges(graph: dict) -> int:
+    """Calcula o número de arestas E do grafo G."""
+    return sum(len(connectedVertices) for connectedVertices in graph.values()) // 2
+
 def calculateMinimumDegree(graph: dict) -> int:
     """Calcula o grau mínimo do grafo G."""
     return min(len(neighbors) for neighbors in graph.values())
 
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
     random.seed(seed)
-    generatedGraphs = {}
-    for verticesAmount in range(ini, fim + 1, stp):
-        graph = generateGraph(verticesAmount, p)
-        verticesCount = calculateVertices(graph)
-        minimumDegree = calculateMinimumDegree(graph)
+    dataSet = {}
+    for n in range(ini, fim + 1, stp):
+        graph = generateGraph(n, p)
+        dataSet[n] = { "graph": graph }
+    
+    for data in dataSet.values():
+        graph = data["graph"]
 
-        generatedGraphs[verticesAmount] = {
-            "graph": graph,
-            "verticesCount": verticesCount,
-            "minimumDegree": minimumDegree
-        }
+        verticesCount = calculateVertices(graph)
+        data |= { "verticesCount": verticesCount }
+
+        edgesCount = calculateEdges(graph)
+        data |= { "edgesCount": edgesCount }
+
+        minimumDegree = calculateMinimumDegree(graph)
+        data |= { "minimumDegree": minimumDegree }
 
 def generateRandomSeed() -> str:
     """Gera um hash SHA3 de 512 caracteres como seed."""
