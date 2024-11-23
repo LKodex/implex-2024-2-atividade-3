@@ -29,6 +29,10 @@ def calculateEdges(graph: dict) -> int:
     """Calcula o número de arestas E do grafo G."""
     return sum(len(connectedVertices) for connectedVertices in graph.values()) // 2
 
+def calculateMinimumDegree(graph: dict) -> int:
+    """Calcula o grau mínimo do grafo G."""
+    return min(len(neighbors) for neighbors in graph.values())
+
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
     random.seed(seed)
     dataSet = {}
@@ -44,12 +48,12 @@ def main(ini: int, fim: int, stp: int, p: float, seed, *args):
 
         edgesCount = calculateEdges(graph)
         data |= { "edgesCount": edgesCount }
-        print(data)
+
+        minimumDegree = calculateMinimumDegree(graph)
+        data |= { "minimumDegree": minimumDegree }
 
 def generateRandomSeed() -> str:
-    '''
-    Gera um hash SHA3 de 512 caracteres
-    '''
+    """Gera um hash SHA3 de 512 caracteres como seed."""
     now = str(time.time())
     nowEncoded = now.encode()
     timeHash = hashlib.sha3_512(nowEncoded).hexdigest()
@@ -67,7 +71,7 @@ if __name__ == "__main__":
         stp = int(sys.argv[3])
         p = float(sys.argv[4])
     except ValueError as e:
-        errorMessage = f"Could not convert parameters to an integer.\nException: {e}"
+        errorMessage = f"Could not convert parameters to the expected types.\nException: {e}"
         print(errorMessage, file=sys.stderr)
         sys.exit(1)
     seed = sys.argv[5] if len(sys.argv) > 5 else generateRandomSeed()
