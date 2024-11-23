@@ -14,6 +14,6 @@
 
 2. `pip install -r requirements.txt` para instalar as dependências  
 
-3. `python3 src/main.py <inc> <fim> <stp> [seed]`  
+3. `python3 src/main.py <inc> <fim> <stp> <p> [seed]`  
 
 [Link para Projeto no GitHub](https://github.com/LKodex/implex-2024-2-atividade-3)  
