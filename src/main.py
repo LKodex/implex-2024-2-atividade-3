@@ -8,9 +8,24 @@
 import sys
 import time
 import hashlib
+import random
 
-def main(ini, fim, stp, p, seed, *args):
-    pass
+def generateGraph(verticesAmount: int, connectionProbability: float) -> dict:
+    graph = { v: list() for v in range(verticesAmount) }
+    for vi in range(len(graph) - 1):
+        for vj in range(vi + 1, len(graph)):
+            shouldConnect = random.random() < connectionProbability
+            if shouldConnect:
+                graph[vi].append(vj)
+                graph[vj].append(vi)
+    return graph
+
+def main(ini: int, fim: int, stp: int, p: float, seed, *args):
+    random.seed(seed)
+    generatedGraphs = {}
+    for verticesAmount in range(ini, fim + 1, stp):
+        graph = generateGraph(verticesAmount, p)
+        generatedGraphs[verticesAmount] = graph
 
 def generateRandomSeed() -> str:
     '''
