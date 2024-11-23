@@ -34,7 +34,7 @@ def calculateMinimumDegree(graph: dict) -> int:
     return min(len(neighbors) for neighbors in graph.values())
 
 def calculateMaximumDegree(graph: dict) -> int:
-    """Calcula o grau mínimo do grafo G."""
+    """Calcula o grau máximo do grafo G."""
     return max(len(neighbors) for neighbors in graph.values())
 
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
