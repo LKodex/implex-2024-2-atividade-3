@@ -36,6 +36,6 @@ if __name__ == "__main__":
         errorMessage = f"Could not convert parameters to an integer.\nException: {e}"
         print(errorMessage, file=sys.stderr)
         sys.exit(1)
-    seed = sys.argv[4] if len(sys.argv) > 4 else generateRandomSeed()
+    seed = sys.argv[5] if len(sys.argv) > 5 else generateRandomSeed()
     print(f"Seed set = {seed}")
-    main(ini, fim, stp, p, seed, *sys.argv[5:])
+    main(ini, fim, stp, p, seed, *sys.argv[6:])
