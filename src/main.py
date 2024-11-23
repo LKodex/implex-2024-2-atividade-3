@@ -25,15 +25,26 @@ def calculateVertices(graph: dict) -> int:
     """Calcula o número de vértices V do grafo G."""
     return len(graph)
 
+def calculateEdges(graph: dict) -> int:
+    """Calcula o número de arestas E do grafo G."""
+    return sum(len(connectedVertices) for connectedVertices in graph.values()) // 2
+
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
     random.seed(seed)
-    generatedGraphs = {}
-    for verticesAmount in range(ini, fim + 1, stp):
-        graph = generateGraph(verticesAmount, p)
-        generatedGraphs[verticesAmount] = graph
+    dataSet = {}
+    for n in range(ini, fim + 1, stp):
+        graph = generateGraph(n, p)
+        dataSet[n] = { "graph": graph }
+    
+    for data in dataSet.values():
+        graph = data["graph"]
+
         verticesCount = calculateVertices(graph)
-        generatedGraphs[verticesAmount] = { "graph": graph }
-        generatedGraphs[verticesAmount] |= { "verticesCount": verticesCount }
+        data |= { "verticesCount": verticesCount }
+
+        edgesCount = calculateEdges(graph)
+        data |= { "edgesCount": edgesCount }
+        print(data)
 
 def generateRandomSeed() -> str:
     '''
