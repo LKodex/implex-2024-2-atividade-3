@@ -11,7 +11,8 @@ import hashlib
 import random
 
 def generateGraph(verticesAmount: int, connectionProbability: float) -> dict:
-    graph = { v: list() for v in range(verticesAmount) }
+    """Gera um grafo não direcionado com base na quantidade de vértices e probabilidade de conexão."""
+    graph = {v: list() for v in range(verticesAmount)}
     for vi in range(len(graph) - 1):
         for vj in range(vi + 1, len(graph)):
             shouldConnect = random.random() < connectionProbability
@@ -20,12 +21,19 @@ def generateGraph(verticesAmount: int, connectionProbability: float) -> dict:
                 graph[vj].append(vi)
     return graph
 
+def calculateVertices(graph: dict) -> int:
+    """Calcula o número de vértices V do grafo G."""
+    return len(graph)
+
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
     random.seed(seed)
     generatedGraphs = {}
     for verticesAmount in range(ini, fim + 1, stp):
         graph = generateGraph(verticesAmount, p)
         generatedGraphs[verticesAmount] = graph
+        verticesCount = calculateVertices(graph)
+        generatedGraphs[verticesAmount] = { "graph": graph }
+        generatedGraphs[verticesAmount] |= { "verticesCount": verticesCount }
 
 def generateRandomSeed() -> str:
     '''
