@@ -16,4 +16,4 @@
 
 3. `python3 src/main.py <inc> <fim> <stp> [seed]`  
 
-[Link para Projeto no GitHub](https://github.com/LKodex/implex-2024-2-atividade-2)  
+[Link para Projeto no GitHub](https://github.com/LKodex/implex-2024-2-atividade-3)  
