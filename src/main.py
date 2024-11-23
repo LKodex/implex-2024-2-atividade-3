@@ -32,7 +32,8 @@ def main(ini: int, fim: int, stp: int, p: float, seed, *args):
         graph = generateGraph(verticesAmount, p)
         generatedGraphs[verticesAmount] = graph
         verticesCount = calculateVertices(graph)
-        print(f"Grafo com {verticesAmount} vértices gerado: {verticesCount} vértices.")
+        generatedGraphs[verticesAmount] = { "graph": graph }
+        generatedGraphs[verticesAmount] |= { "verticesCount": verticesCount }
 
 def generateRandomSeed() -> str:
     '''
