@@ -43,6 +43,41 @@ def calculateAverageDegree(graph: dict) -> float:
     verticesCount = calculateVertices(graph)
     return totalDegrees / verticesCount if verticesCount > 0 else 0
 
+def calculateDiameter(graph: dict) -> int:
+    """Calcula o diametro do grafo"""
+    minimumDegree = calculateMinimumDegree(graph)
+    if minimumDegree <= 0:
+        return 0
+    return 0
+
+def generateTreePath(graph: dict, origin: int):
+    WHITE = "WHITE"
+    GRAY = "GRAY"
+    BLACK = "BLACK"
+    bfsTreeGraph = {}
+    for v, neighbors in graph.items():
+        bfsTreeGraph[v] = {
+            "neighbors": neighbors.copy(),
+            "color": WHITE
+        }
+    
+    originVertice = bfsTreeGraph[origin]
+    originVertice["distance"] = 0
+    originVertice["color"] = GRAY
+    originVertice["previous"] = -1
+
+    grayVertices = [ (origin, originVertice) ]
+    for (v, vertice) in grayVertices:
+        vertice["color"] = BLACK
+        for neighbor in vertice["neighbors"]:
+            neighborVertice = bfsTreeGraph[neighbor]
+            if neighborVertice["color"] == WHITE:
+                neighborVertice["color"] = GRAY
+                neighborVertice["distance"] = vertice["distance"] + 1
+                neighborVertice["previous"] = v
+                grayVertices.append((neighbor, neighborVertice))
+    return bfsTreeGraph
+
 def main(ini: int, fim: int, stp: int, p: float, seed, *args):
     random.seed(seed)
     dataSet = {}
@@ -67,6 +102,9 @@ def main(ini: int, fim: int, stp: int, p: float, seed, *args):
         
         averageDegree = calculateAverageDegree(graph)
         data |= { "averageDegree": averageDegree }
+
+        diameter = calculateDiameter(graph)
+        data |= { "diameter": diameter }
         
 def generateRandomSeed() -> str:
     """Gera um hash SHA3 de 512 caracteres como seed."""
