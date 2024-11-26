@@ -9,6 +9,7 @@ import sys
 import time
 import hashlib
 import random
+from tabulate import tabulate  # Certifique-se de instalar esta biblioteca com 'pip install tabulate'
 
 def generateGraph(verticesAmount: int, connectionProbability: float) -> dict:
     """Gera um grafo não direcionado com base na quantidade de vértices e probabilidade de conexão."""
@@ -36,7 +37,7 @@ def calculateMinimumDegree(graph: dict) -> int:
 def calculateMaximumDegree(graph: dict) -> int:
     """Calcula o grau máximo do grafo G."""
     return max(len(neighbors) for neighbors in graph.values())
-  
+
 def calculateAverageDegree(graph: dict) -> float:
     """Calcula a média dos graus gmed do grafo G."""
     totalDegrees = sum(len(neighbors) for neighbors in graph.values())
@@ -44,7 +45,7 @@ def calculateAverageDegree(graph: dict) -> float:
     return totalDegrees / verticesCount if verticesCount > 0 else 0
 
 def calculateDiameter(graph: dict) -> int:
-    """Calcula o diametro do grafo"""
+    """Calcula o diâmetro do grafo."""
     minimumDegree = calculateMinimumDegree(graph)
     if minimumDegree <= 0:
         return 0
@@ -113,7 +114,26 @@ def main(ini: int, fim: int, stp: int, p: float, seed, *args):
 
         diameter = calculateDiameter(graph)
         data |= { "diameter": diameter }
-        
+
+    # Exibir os resultados na forma de tabela
+    displayResults(dataSet)
+
+def displayResults(dataSet):
+    """Gera e exibe uma tabela com os dados dos grafos."""
+    headers = ["V", "E", "gmin", "gmax", "gmed", "diam"]
+    table = []
+    for data in dataSet.values():
+        table.append([
+            data["verticesCount"],
+            data["edgesCount"],
+            data["minimumDegree"],
+            data["maximumDegree"],
+            f"{data['averageDegree']:.1f}",
+            data["diameter"]
+        ])
+    
+    print(tabulate(table, headers=headers, tablefmt="pretty"))
+
 def generateRandomSeed() -> str:
     """Gera um hash SHA3 de 512 caracteres como seed."""
     now = str(time.time())
