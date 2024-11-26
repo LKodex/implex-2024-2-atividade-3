@@ -9,7 +9,7 @@ import sys
 import time
 import hashlib
 import random
-from tabulate import tabulate  # Certifique-se de instalar esta biblioteca com 'pip install tabulate'
+from tabulate import tabulate 
 
 def generateGraph(verticesAmount: int, connectionProbability: float) -> dict:
     """Gera um grafo não direcionado com base na quantidade de vértices e probabilidade de conexão."""
@@ -66,12 +66,10 @@ def countConnectedComponents(graph: dict) -> int:
 
 def calculateDiameter(graph: dict) -> int:
     """Calcula o diâmetro do grafo."""
-    # Verificar se há mais de uma componente conectada
     componentsCount = countConnectedComponents(graph)
     if componentsCount > 1:
         return 0
 
-    # Calcular o diâmetro apenas para grafos conectados
     verticesCount = calculateVertices(graph)
     maximumDistance = 0
     for v in range(verticesCount):
@@ -138,7 +136,6 @@ def main(ini: int, fim: int, stp: int, p: float, seed, *args):
         diameter = calculateDiameter(graph)
         data |= { "diameter": diameter }
 
-    # Exibir os resultados na forma de tabela
     displayResults(dataSet)
 
 def displayResults(dataSet):
