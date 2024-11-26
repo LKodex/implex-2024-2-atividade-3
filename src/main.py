@@ -53,9 +53,7 @@ def calculateDiameter(graph: dict) -> int:
     maximumDistance = 0
     for v in range(verticesCount):
         bfsTreePath = generateTreePath(graph, v)
-        vertice = bfsTreePath[v]
-        verticeDistance = vertice["distance"]
-        maximumDistance = max(verticeDistance, maximumDistance)
+        maximumDistance = max(maximumDistance, max((vertice["distance"] for vertice in bfsTreePath.values())))
     return maximumDistance
 
 def generateTreePath(graph: dict, origin: int):
