@@ -44,16 +44,41 @@ def calculateAverageDegree(graph: dict) -> float:
     verticesCount = calculateVertices(graph)
     return totalDegrees / verticesCount if verticesCount > 0 else 0
 
+def countConnectedComponents(graph: dict) -> int:
+    """Conta o número de componentes conectadas no grafo."""
+    visited = set()
+    components = 0
+
+    def dfs(vertex):
+        stack = [vertex]
+        while stack:
+            current = stack.pop()
+            if current not in visited:
+                visited.add(current)
+                stack.extend(neighbor for neighbor in graph[current] if neighbor not in visited)
+
+    for vertex in graph:
+        if vertex not in visited:
+            components += 1
+            dfs(vertex)
+
+    return components
+
 def calculateDiameter(graph: dict) -> int:
     """Calcula o diâmetro do grafo."""
-    minimumDegree = calculateMinimumDegree(graph)
-    if minimumDegree <= 0:
+    # Verificar se há mais de uma componente conectada
+    componentsCount = countConnectedComponents(graph)
+    if componentsCount > 1:
         return 0
+
+    # Calcular o diâmetro apenas para grafos conectados
     verticesCount = calculateVertices(graph)
     maximumDistance = 0
     for v in range(verticesCount):
         bfsTreePath = generateTreePath(graph, v)
-        maximumDistance = max(maximumDistance, max((vertice["distance"] for vertice in bfsTreePath.values())))
+        distances = [vertice["distance"] for vertice in bfsTreePath.values() if "distance" in vertice]
+        if distances:
+            maximumDistance = max(maximumDistance, max(distances))
     return maximumDistance
 
 def generateTreePath(graph: dict, origin: int):
@@ -73,7 +98,7 @@ def generateTreePath(graph: dict, origin: int):
     originVertice["color"] = GRAY
     originVertice["previous"] = -1
 
-    grayVertices = [ (origin, originVertice) ]
+    grayVertices = [(origin, originVertice)]
     for (v, vertice) in grayVertices:
         vertice["color"] = BLACK
         for neighbor in vertice["neighbors"]:
